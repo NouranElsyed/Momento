@@ -1,0 +1,49 @@
+import { NavLink, Outlet } from "react-router-dom";
+import { useGetUserPostsQuery, useGetUserQuery } from "../app/features/api/apiSlice";
+
+const Profile = () => {
+  const { isError, data, isLoading } = useGetUserQuery(null);
+  console.log(data)
+  const {  data:userPosts , isError:error} = useGetUserPostsQuery(data?.user?._id);
+console.log(userPosts,error)
+  console.log(isError, data, isLoading);
+  return (
+    <>
+      <div className=" bg-[#ffffff] border border-[#dadde0db] h-fit w-5/6 md:w-4/6 mx-auto  rounded-2xl overflow-hidden">
+        <div className="flex  justify-between items-center px-10 py-8 flex-col md:flex-row text-[#000000]">
+          <div className="user flex  gap-3 items-center">
+            <img
+              src={data?.user?.photo}
+              className="h-14 w-14 rounded-full border-1 border-[#bdbdbd] object-cover bg-slate-200 "
+              alt=""
+            />
+            <p className="text-lg">{data?.user?.name}</p>
+          </div>
+          <ul className="flex gap-7">
+            <li className="flex flex-col">
+              <span className="font-semibold">12</span>
+              <p>Posts</p>
+            </li>
+            <li className="flex flex-col">
+              <span className="font-semibold">207</span>
+              <p>Followers</p>
+            </li>
+            <li className="flex flex-col">
+              <span className="font-semibold">64</span>
+              <p>Following</p>
+            </li>
+          </ul>
+        </div>
+        <div className="w-full border-b border-neutral-300 "></div>
+        <ul className="flex gap-5 mx-10 my-3 text-sm text-[#646464]">
+          <li><NavLink to={'/profile'} className={'hover:text-blue-400 cursor-pointer transition-colors duration-250'}>My Posts</NavLink></li>
+          <li><NavLink to={'/profile/savedposts'} className={'hover:text-blue-400 cursor-pointer transition-colors duration-250'}>Saved Posts</NavLink></li>
+          <li><NavLink to={'/profile/settings'} className={'hover:text-blue-400 cursor-pointer transition-colors duration-250'}>Settings</NavLink></li>
+        </ul>
+      </div>
+      <Outlet />
+    </>
+  );
+};
+
+export default Profile;
