@@ -173,7 +173,7 @@ const Register = () => {
           </div>
         </div>
         {(isloading && (
-          <Button className="btn loading flex justify-center items-center gap-1npm" type="submit">
+          <Button className="btn loading flex justify-center items-center gap-1" type="submit">
             <ClockLoader color="#ffffff" size={15} speedMultiplier={0.7} />
             <span>Submit</span>
           </Button>

@@ -27,6 +27,9 @@ a.active {
   font-weight: 600;
   color: black;
 }
+.setting.active  {
+  background-color: #e1dfdfd2;
+}
 /** ===========> post <=========*/
 .postuserImg {
   width: 35px;

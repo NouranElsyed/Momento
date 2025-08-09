@@ -11,12 +11,18 @@ export interface IRegisterForm {
   dateOfBirth: string;
   gender: "" | "female" | "male";
 }
+// for login and register
 export interface IAxiosError {
   error: {
     message: string;
     name: string;
     status: number;
   };
+}
+// for upload photo
+export interface IAxiosErrorPhoto {
+  error:  string;
+
 }
 export interface IUser {
   _id?: string;

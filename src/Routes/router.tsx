@@ -12,6 +12,7 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import MyPosts from "../Pages/Profile/MyPosts";
 import Settings from "../Pages/Profile/settings/Settings";
+import UploadPhoto from "../Pages/Profile/settings/UploadPhoto";
 
 const user = localStorage.getItem("user");
 console.log(user);
@@ -33,7 +34,8 @@ const router = createBrowserRouter(
           <Route index element={<MyPosts />}/>
           <Route path="savedposts" element={<MyPosts/>} />
           <Route path="settings" element={<Settings/>}>
-                {/* <Route index element={<UploadPhoto/>}/> */}
+                <Route index element={<UploadPhoto/>}/>
+                <Route path="changepassword" element={<UploadPhoto/>}/>
           </Route>
         </Route>
       </Route>

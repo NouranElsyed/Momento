@@ -9,7 +9,7 @@ const MainLayout = () => {
   };
   return (
     <>
-      <Navbar className="">
+      <Navbar className="z-50">
         <div className="font-bold px-7 text-md flex gap-2  items-center">
           <img
             src="/public/Logo.svg"
