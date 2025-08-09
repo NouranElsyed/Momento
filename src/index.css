@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
-@import "@flaticon/flaticon-uicons/css/all/all.css";
+
 /**  ========>  Navbar  <========   */
 /*? className="py-2 text-[#fffffe] fixed top-0 left-0 w-full flex justify-between items-center"*/
 * {

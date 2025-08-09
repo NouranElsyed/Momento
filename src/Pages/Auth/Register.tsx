@@ -1,14 +1,14 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
 import { useNavigate } from "react-router-dom";
-import api from "../config/api.config";
+import api from "../../config/api.config";
 import toast from "react-hot-toast";
 import { ClockLoader } from "react-spinners";
 import type { AxiosError } from "axios";
-import type { IAxiosError, IRegisterForm } from "../interface";
-import { validateRegister } from "../validation/validateForm";
-import ErrMsg from "../components/ui/ErrMsg";
+import type { IAxiosError, IRegisterForm } from "../../interface";
+import { validateRegister } from "../../validation/validateForm";
+import ErrMsg from "../../components/ui/ErrMsg";
 
 const Register = () => {
   const emptyUser: IRegisterForm = {

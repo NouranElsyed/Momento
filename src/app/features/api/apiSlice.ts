@@ -25,7 +25,7 @@ export const apiSlice = createApi({
       },
     }),
     getPosts: builder.query({
-      query: () => '/posts?limit=10'
+      query: () => '/posts?limit=20'
     }),
     getUserPosts: builder.query({
       query: (id) => `/users/${id}/posts?limit=10`

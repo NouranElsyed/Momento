@@ -17,7 +17,7 @@ const Feed = () => {
     return (
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
         <div className="w-3/4 mx-auto flex flex-col  gap-10">
-          <div className=" bg-[#ffffff] border border-[#a0a0a0db] w-11/12 mx-auto rounded-2xl px-10 py-7">
+          <div className=" bg-[#ffffff] border  border-[#dadde0db] w-11/12 mx-auto rounded-2xl px-10 py-7">
             <div className=" flex items-center gap-2 w-full mb-5">
               <Skeleton circle height={40} width={40} />
               <Skeleton height={20} width={100} />
@@ -34,7 +34,7 @@ const Feed = () => {
     <div className="w-4/6 mx-auto flex flex-col  gap-10">
         {posts &&
           posts.map((post: IPost) => (
-            <div key={post.id} className=" bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl px-10 py-7">
+            <div key={post.id} className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl px-10 py-7">
             <Post
               user={post.user}
               body={post.body}

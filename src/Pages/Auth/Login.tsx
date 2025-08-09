@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import api from "../config/api.config";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";
-import type { IAxiosError } from "../interface";
+import { validateLogin } from "../../validation/validateForm";
+import api from "../../config/api.config";
+import type { IAxiosError } from "../../interface";
+import ErrMsg from "../../components/ui/ErrMsg";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 import { ClockLoader } from "react-spinners";
-import { validateLogin } from "../validation/validateForm";
-import ErrMsg from "../components/ui/ErrMsg";
+
 
 const Login = () => {
   const emptyUser = {

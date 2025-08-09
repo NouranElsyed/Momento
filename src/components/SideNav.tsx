@@ -1,5 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { useGetUserQuery } from "../app/features/api/apiSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell, faHouse, faMessage, faUser } from "@fortawesome/free-regular-svg-icons";
+
 
 const SideNav = () => {
   const user = useGetUserQuery(null);
@@ -27,29 +30,29 @@ const SideNav = () => {
       <div>
         <ul className="flex flex-col gap-2 items-start mx-[20px] font-extralight text-sm  mb-7">
           <NavLink to={"/"}>
-            <li className="hover:text-blue-400 cursor-pointer transition-colors duration-250">
-              <i className="fi fi-rr-house-chimney me-3"></i>
+            <li className="flex gap-2 hover:text-blue-400 cursor-pointer transition-colors duration-250">
+              <FontAwesomeIcon icon={faHouse} />
               <span>Home</span>
             </li>
           </NavLink>
           <div className="w-full border-b-1 border-b-neutral-300"></div>
           <NavLink to={"/profile"}>
-            <li className="hover:text-blue-400 cursor-pointer transition-colors duration-250">
-              <i className="fi fi-rr-user me-3"></i>
+            <li className="flex gap-2 hover:text-blue-400 cursor-pointer transition-colors duration-250">
+              <FontAwesomeIcon icon={faUser} />
               <span>Profile</span>
             </li>
           </NavLink>
           <div className="w-full border-b-1 border-b-neutral-300"></div>
           <NavLink to={"/Messages"}>
-            <li className="hover:text-blue-400 cursor-pointer transition-colors duration-250">
-              <i className="fi fi-rr-messages me-3"></i>
+            <li className="flex gap-2 hover:text-blue-400 cursor-pointer transition-colors duration-250">
+              <FontAwesomeIcon icon={faMessage} />
               <span>Messages</span>
             </li>
           </NavLink>
           <div className="w-full border-b-1 border-b-neutral-300"></div>
           <NavLink to={"/notifications"}>
-            <li className="hover:text-blue-400 cursor-pointer transition-colors duration-250">
-              <i className="fi fi-rs-bell me-3"></i>
+            <li className="flex gap-2 hover:text-blue-400 cursor-pointer transition-colors duration-250">
+              <FontAwesomeIcon icon={faBell} />
               <span>Notifications</span>
             </li>
           </NavLink>

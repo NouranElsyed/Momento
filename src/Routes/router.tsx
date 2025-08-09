@@ -3,14 +3,15 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-
-import Login from "../Pages/Login";
-import Register from "../Pages/Register";
 import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "../Layout/MainLayout";
 import Feed from "../Pages/Feed";
 import AuthLayout from "../Layout/AuthLayout";
-import Profile from "../Pages/Profile";
+import Profile from "../Pages/Profile/Profile";
+import Login from "../Pages/Auth/Login";
+import Register from "../Pages/Auth/Register";
+import MyPosts from "../Pages/Profile/MyPosts";
+import Settings from "../Pages/Profile/settings/Settings";
 
 const user = localStorage.getItem("user");
 console.log(user);
@@ -29,9 +30,11 @@ const router = createBrowserRouter(
       >
         <Route index element={<Feed />} />
         <Route path="profile" element={<Profile />}>
-          {/* <Route index element={<MyPosts />} />
+          <Route index element={<MyPosts />}/>
           <Route path="savedposts" element={<MyPosts/>} />
-          <Route path="settings" element={<Settings />} /> */}
+          <Route path="settings" element={<Settings/>}>
+                {/* <Route index element={<UploadPhoto/>}/> */}
+          </Route>
         </Route>
       </Route>
       <Route
