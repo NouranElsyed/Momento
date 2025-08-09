@@ -11,11 +11,7 @@ const MainLayout = () => {
     <>
       <Navbar className="z-50">
         <div className="font-bold px-7 text-md flex gap-2  items-center">
-          <img
-            src="/public/Logo.svg"
-            alt="Monento logo"
-            className="MonentoLogo"
-          />
+          <img src="/Logo.svg" alt="Monento logo" className="MonentoLogo" />
           <h2>Momento</h2>
         </div>
 
@@ -27,7 +23,7 @@ const MainLayout = () => {
           <a>Logout</a>
         </div>
       </Navbar>
-      
+
       <div className="outlet w-full min-h-screen bg-[#f6f9fd] flex md:px-5 lg:px-10 gap-5 pt-25">
         <SideNav />
         <Outlet />

@@ -14,7 +14,7 @@ const SideNav = () => {
     <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] ms-7 rounded-xl overflow-hidden relative">
       
       {/* Cover Image */}
-      <img src="/public/cover.png" alt="" className=" w-full object-cover" />
+      <img src="/cover.png" alt="" className=" w-full object-cover" />
 
       {/* Profile Photo */}
       <img
