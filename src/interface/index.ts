@@ -20,7 +20,7 @@ export interface IAxiosError {
   };
 }
 // for upload photo
-export interface IAxiosErrorPhoto {
+export interface IAxiosErrorProfile {
   error:  string;
 
 }

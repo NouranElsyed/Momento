@@ -3,7 +3,7 @@ import { useGetUserQuery } from "../../../app/features/api/apiSlice";
 import api from "../../../config/api.config";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";
-import type { IAxiosErrorPhoto } from "../../../interface";
+import type { IAxiosErrorProfile } from "../../../interface";
 import Button from "../../../components/ui/Button";
 import { ClockLoader } from "react-spinners";
 
@@ -50,7 +50,7 @@ const UploadPhoto = () => {
       }
     } catch (error) {
       console.log(error);
-      const AxiosErr = error as AxiosError<IAxiosErrorPhoto>;
+      const AxiosErr = error as AxiosError<IAxiosErrorProfile>;
       console.log(AxiosErr?.response?.data);
       const MsgErr =
         AxiosErr?.response?.data?.error || "An unexpected error has occurred";

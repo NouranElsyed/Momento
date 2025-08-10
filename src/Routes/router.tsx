@@ -13,10 +13,7 @@ import Register from "../Pages/Auth/Register";
 import MyPosts from "../Pages/Profile/MyPosts";
 import Settings from "../Pages/Profile/settings/Settings";
 import UploadPhoto from "../Pages/Profile/settings/UploadPhoto";
-
-const user = localStorage.getItem("user");
-console.log(user);
-const isAllowed = user ? true : false;
+import ChangePassword from "../Pages/Profile/settings/ChangePassword";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +21,7 @@ const router = createBrowserRouter(
       <Route
         path="/"
         element={
-          <ProtectedRoute isAllowed={isAllowed} redirectTo="/auth/login">
+          <ProtectedRoute redirectTo="/auth/login" forPublic={false}>
             <MainLayout />
           </ProtectedRoute>
         }
@@ -35,14 +32,14 @@ const router = createBrowserRouter(
           <Route path="savedposts" element={<MyPosts/>} />
           <Route path="settings" element={<Settings/>}>
                 <Route index element={<UploadPhoto/>}/>
-                <Route path="changepassword" element={<UploadPhoto/>}/>
+                <Route path="changepassword" element={<ChangePassword/>}/>
           </Route>
         </Route>
       </Route>
       <Route
         path="/auth"
         element={
-          <ProtectedRoute isAllowed={!isAllowed} redirectTo="/">
+          <ProtectedRoute  redirectTo="/" forPublic={true}>
             <AuthLayout />
           </ProtectedRoute>
         }
