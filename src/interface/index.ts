@@ -21,8 +21,7 @@ export interface IAxiosError {
 }
 // for upload photo
 export interface IAxiosErrorProfile {
-  error:  string;
-
+  error: string;
 }
 export interface IUser {
   _id?: string;
@@ -34,16 +33,20 @@ export interface IUser {
   // createdAt: "2025-07-27T21:40:24.629Z";
 }
 export interface IDataPost {
-  message:string
-paginationInfo
-: 
-{currentPage: number, numberOfPages: number, limit: number, nextPage: number, total: number}
-posts:IPost[]
+  message: string;
+  paginationInfo: {
+    currentPage: number;
+    numberOfPages: number;
+    limit: number;
+    nextPage: number;
+    total: number;
+  };
+  posts: IPost[];
 }
 
 export interface IPost {
   body?: string;
-  comments?: IComment[]
+  comments?: IComment[];
   createdAt?: string;
   id?: string;
   image?: string;
@@ -54,14 +57,16 @@ export interface IPost {
   };
   _id?: string;
 }
+
 export interface IComment {
-  commentCreator: {
+  commentCreator?: {
+    _id: string;
     name: string;
     photo: string;
-    _id: string;
   };
-  content: string;
-  createdAt: string;
-  post: string;
-  _id: string;
+  content?: string;
+  createdAt?: string;
+  id?: string;
+  post?: string;
+  _id?: string;
 }

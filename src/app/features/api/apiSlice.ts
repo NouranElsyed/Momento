@@ -30,7 +30,10 @@ export const apiSlice = createApi({
     getUserPosts: builder.query({
       query: (id) => `/users/${id}/posts?limit=10`
     }),
+    getComments: builder.query({
+      query: (id) => `/posts/${id}/comments`
+    })
   }),
 })
 
-export const {useGetUserPostsQuery , useGetUserQuery , useGetPostsQuery} = apiSlice;
+export const { useGetCommentsQuery , useGetUserPostsQuery , useGetUserQuery , useGetPostsQuery} = apiSlice;

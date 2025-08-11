@@ -32,16 +32,20 @@ const Feed = () => {
   const posts = dataPosts.posts;
   return (
     <div className="w-4/6 mx-auto flex flex-col  gap-10">
-        {posts &&
-          posts.map((post: IPost) => (
-            <div key={post.id} className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl px-10 py-7">
+      {posts &&
+        posts.map((post: IPost) => (
+          <div
+            key={post.id}
+            className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7 pb-3"
+          >
             <Post
               user={post.user}
               body={post.body}
               image={post.image}
-              />
-              </div>
-          ))}
+              id={post.id}
+            />
+          </div>
+        ))}
     </div>
   );
 };

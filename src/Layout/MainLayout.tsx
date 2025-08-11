@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/ui/Navbar";
 import SideNav from "../components/SideNav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const MainLayout = () => {
   const logOut = () => {
@@ -17,10 +19,10 @@ const MainLayout = () => {
 
         <div
           onClick={logOut}
-          className="flex gap-1.5 px-5 font-sm  text-red-600 cursor-pointer "
+          className="flex items-center gap-1.5 px-5 font-sm  text-red-600 cursor-pointer "
         >
-          <i className="fi fi-rr-sign-out-alt"></i>
           <a>Logout</a>
+          <FontAwesomeIcon icon={faArrowRightFromBracket} />
         </div>
       </Navbar>
 
