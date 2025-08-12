@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "../components/ui/Navbar";
 import SideNav from "../components/SideNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,10 +22,10 @@ const MainLayout = () => {
   return (
     <>
       <Navbar className="z-50">
-        <div className="font-bold px-7 text-md flex gap-2  items-center">
+        <NavLink to={'/'} className="font-bold px-7 text-md flex gap-2  items-center">
           <img src="/Logo.svg" alt="Monento logo" className="MonentoLogo" />
           <h2>Momento</h2>
-        </div>
+        </NavLink>
 
         <div
           onClick={logOut}
@@ -63,7 +63,7 @@ const MainLayout = () => {
          </motion.div>
         )}
         </AnimatePresence>
-        <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] md:ms-1 lg:ms-7 ">
+        <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] md:ms-1 lg:ms-7 rounded-xl  ">
           <SideNav showSideNav={!showSideNav} />
         </div>
         <Outlet />

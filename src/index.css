@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap');
 /**  ========>  Navbar  <========   */
 /*? className="py-2 text-[#fffffe] fixed top-0 left-0 w-full flex justify-between items-center"*/
 * {
@@ -29,6 +29,10 @@ a.active {
 }
 .setting.active  {
   background-color: #e1dfdfd2;
+}
+.AuthTitle{
+   font-family: "Edu NSW ACT Cursive", cursive;
+   font-weight: 600;
 }
 /** ===========> post <=========*/
 .postuserImg {

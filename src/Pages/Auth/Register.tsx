@@ -68,14 +68,14 @@ const Register = () => {
             position: "top-center",
           });
           setTimeout(() => {
-            location.replace("/");
-          }, 1000);
+            location.replace("/auth/login");
+          }, 1500);
         }
       } catch (error) {
         console.log(error);
         const AxiosErr = error as AxiosError<IAxiosError>;
         const MsgErr =
-          AxiosErr?.response?.data?.error?.message ||
+          AxiosErr?.response?.data?.error||
           "An unexpected error has occurred";
         toast.error(MsgErr, {
           duration: 2000,
@@ -89,16 +89,24 @@ const Register = () => {
   //** ==========================return============================> **//
   return (
     <>
+      <h3  className="AuthTitle pt-3 text-2xl text-[#0c1024] ">Register</h3>
       <form
         onSubmit={(e) => sendUser(e)}
-        className="w-full px-10 flex flex-col gap-5 pt-10"
+        className="w-full px-10 flex flex-col gap-5 pt-3"
       >
         <div className={`inputsContainer  flex flex-col gap-3`}>
           <div className="inputWrapper">
+            <label
+              htmlFor="name"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Username
+            </label>
             <Input
+              id="name"
               name="name"
               type="text"
-              placeholder="Name"
+              placeholder="Enter your name"
               autoComplete="name"
               onChange={getUserData}
             />
@@ -106,10 +114,17 @@ const Register = () => {
           </div>
 
           <div className="inputWrapper">
+            <label
+              htmlFor="email"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Email
+            </label>
             <Input
+              id="email"
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="Enter your email"
               autoComplete="email"
               onChange={getUserData}
             />
@@ -117,10 +132,17 @@ const Register = () => {
           </div>
 
           <div className="inputWrapper">
+            <label
+              htmlFor="password"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Password
+            </label>
             <Input
+              id="password"
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="Enter your password"
               autoComplete="current-password"
               onChange={getUserData}
             />
@@ -128,10 +150,17 @@ const Register = () => {
           </div>
 
           <div className="inputWrapper">
+            <label
+              htmlFor="repassword"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Confirm  password
+            </label>
             <Input
+              id="repassword"
               name="rePassword"
               type="password"
-              placeholder="Re-Password"
+              placeholder="Confirm your Password"
               autoComplete="current-password"
               onChange={getUserData}
             />
@@ -141,7 +170,14 @@ const Register = () => {
           </div>
 
           <div className="inputWrapper">
+            <label
+              htmlFor="dateOfBirth"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Date of birth
+            </label>
             <Input
+              id="dateOfBirth"
               name="dateOfBirth"
               type="date"
               placeholder="Date of birth"
@@ -154,9 +190,16 @@ const Register = () => {
           </div>
 
           <div className="inputWrapper relative ">
+            <label
+              htmlFor="gender"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+             Gender
+            </label>
             <select
+            id="gender"
               name="gender"
-              className="appearance-none w-full px-3 py-1 rounded-md  placeholder-[#3c3c3cc2] border-2 border-[#cfd6e1]   focus:border-[#7fa1e4] focus:outline-none text-black"
+              className="w-full px-3 py-1 rounded-md  placeholder-[#3c3c3cc2] text-sm border border-[#e1e4e9] bg-[#fcfcfc]  focus:border-[#7fa1e4] focus:outline-none text-black  focus:border-2 transition-all duration-100 ease-in-out"
               onChange={getUserData}
               value={user.gender}
             >
@@ -173,7 +216,10 @@ const Register = () => {
           </div>
         </div>
         {(isloading && (
-          <Button className="btn loading flex justify-center items-center gap-1" type="submit">
+          <Button
+            className="btn loading flex justify-center items-center gap-1"
+            type="submit"
+          >
             <ClockLoader color="#ffffff" size={15} speedMultiplier={0.7} />
             <span>Submit</span>
           </Button>
@@ -183,12 +229,12 @@ const Register = () => {
           </Button>
         )}
         <p className="text-[#4B5669] ">
-         Have an account?{" "}
+          Have an account?{" "}
           <span
             onClick={() => navigate("/auth/login")}
             className="text-[#27364B]   font-bold hover:text-[#389a95] underline cursor-pointer"
           >
-           Log In
+            Log In
           </span>
         </p>
       </form>

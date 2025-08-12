@@ -26,9 +26,8 @@ const Input = ({
       placeholder={placeholder}
       name={name}
       {...props}
-      className={`w-full text-base border-2 px-3 py-1 border-[#cfd6e1] rounded-md   text-[#3c3c3c] placeholder-[#3c3c3cc2]
-       focus:border-[#7fa1e4] focus:outline-none 
-              [&::-webkit-calendar-picker-indicator]:invert 
+      className={`w-full text-sm border px-3 py-1 border-[#e1e4e9] rounded-md bg-[#fcfcfc]  text-[#3c3c3c] placeholder-[#a29c9cb3]
+       focus:border-[#769ce6] focus:outline-none focus:border-2 transition-all duration-100 ease-in-out
               ${className}`}
       autoComplete={autoComplete}
     />

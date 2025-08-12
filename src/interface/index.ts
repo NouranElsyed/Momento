@@ -12,15 +12,15 @@ export interface IRegisterForm {
   gender: "" | "female" | "male";
 }
 // for login and register
-export interface IAxiosError {
-  error: {
-    message: string;
-    name: string;
-    status: number;
-  };
-}
+// export interface IAxiosError {
+//   error: {
+//     message: string;
+//     name: string;
+//     status: number;
+//   };
+// }
 // for upload photo
-export interface IAxiosErrorProfile {
+export interface IAxiosError {
   error: string;
 }
 export interface IUser {

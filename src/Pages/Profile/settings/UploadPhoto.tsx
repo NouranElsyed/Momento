@@ -3,7 +3,7 @@ import { useGetUserQuery } from "../../../app/features/api/apiSlice";
 import api from "../../../config/api.config";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";
-import type { IAxiosErrorProfile } from "../../../interface";
+import type { IAxiosError } from "../../../interface";
 import Button from "../../../components/ui/Button";
 import { ClockLoader } from "react-spinners";
 
@@ -11,7 +11,7 @@ const UploadPhoto = () => {
   const [loading, setLoading] = useState(false);
   const [formData] = useState(new FormData());
   const [hasPhoto, setHasPhoto] = useState(false);
-const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   console.log(formData);
 
   const { data } = useGetUserQuery(null);
@@ -24,13 +24,13 @@ const [preview, setPreview] = useState<string | null>(null);
         position: "top-center",
       });
       return;
-    }else{
-       setPreview(URL.createObjectURL(file));
+    } else {
+      setPreview(URL.createObjectURL(file));
     }
     formData.append("photo", file);
     setHasPhoto(true);
   };
-  
+
   const handleUpload = async () => {
     setLoading(true);
     const token = JSON.parse(localStorage.getItem("user") ?? "{}")?.token;
@@ -52,7 +52,7 @@ const [preview, setPreview] = useState<string | null>(null);
       }
     } catch (error) {
       console.log(error);
-      const AxiosErr = error as AxiosError<IAxiosErrorProfile>;
+      const AxiosErr = error as AxiosError<IAxiosError>;
       console.log(AxiosErr?.response?.data);
       const MsgErr =
         AxiosErr?.response?.data?.error || "An unexpected error has occurred";
@@ -68,11 +68,11 @@ const [preview, setPreview] = useState<string | null>(null);
   return (
     <div className="w-full h-full  flex flex-col gap-5 justify-center items-center my-10">
       <div className="w-20 h-20 rounded-full overflow-hidden bg-slate-200">
-         {preview ? (
-        <img src={preview} alt="Preview"  />
-      ) : (
-        <img src={data?.user?.photo} alt="Current"  />
-      )}
+        {preview ? (
+          <img src={preview} alt="Preview" />
+        ) : (
+          <img src={data?.user?.photo} alt="Current" />
+        )}
       </div>
       <input
         type="file"

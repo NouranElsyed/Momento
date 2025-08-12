@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import Button from "../../../components/ui/Button";
 import { ClockLoader } from "react-spinners";
 import type { AxiosError } from "axios";
-import type { IAxiosErrorProfile } from "../../../interface";
+import type { IAxiosError } from "../../../interface";
 import api from "../../../config/api.config";
 
 const ChangePassword = () => {
@@ -52,7 +52,7 @@ const ChangePassword = () => {
       }
     } catch (error) {
       console.log(error);
-      const AxiosErr = error as AxiosError<IAxiosErrorProfile>;
+      const AxiosErr = error as AxiosError<IAxiosError>;
       const MsgErr =
         AxiosErr?.response?.data?.error || "An unexpected error has occurred";
       toast.error(MsgErr, {

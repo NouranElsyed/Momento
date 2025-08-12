@@ -49,21 +49,21 @@ const Login = () => {
       try {
         const res = await api.post("users/signin", user);
         console.log(res.data);
-        localStorage.setItem("user", JSON.stringify(res.data));
         if (res.status === 200 || res.status === 201) {
+          localStorage.setItem("user", JSON.stringify(res.data));
           toast.success("welcome to Momento", {
             duration: 2000,
             position: "top-center",
           });
           setTimeout(() => {
             location.replace("/");
-          }, 1000);
+          }, 10000);
         }
       } catch (error) {
         console.log(error);
         const AxiosErr = error as AxiosError<IAxiosError>;
         const MsgErr =
-          AxiosErr?.response?.data?.error?.message ||
+          AxiosErr?.response?.data?.error||
           "An unexpected error has occurred";
         toast.error(MsgErr, {
           duration: 2000,
@@ -76,11 +76,20 @@ const Login = () => {
   };
   return (
     <>
-      <form onSubmit={sendUser} className="w-full px-10 flex flex-col gap-5 pt-10">
+      <h3  className="AuthTitle pt-3 text-2xl text-[#0c1024] ">Login</h3>
+
+      <form onSubmit={sendUser} className="w-full px-10 flex flex-col gap-5 pt-3">
 
         <div className="inputsContainer flex flex-col gap-3">
           <div className="inputWrapper">
+            <label
+              htmlFor="email"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Email
+            </label>
             <Input
+              id="email"
               name="email"
               type="email"
               placeholder="Email"
@@ -90,7 +99,14 @@ const Login = () => {
             {ErrorMsg.email !== "" && <ErrMsg>{ErrorMsg.email}</ErrMsg>}
           </div>
           <div className="inputWrapper">
+             <label
+              htmlFor="password"
+              className="text-start block w-full text-[#1b1d2a] text-sm mb-1"
+            >
+              Password
+            </label>
             <Input
+              id="password"
               name="password"
               type="password"
               placeholder="Password"
