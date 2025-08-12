@@ -11,20 +11,20 @@ const SideNav = () => {
 
   return (
     <>
-    <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] ms-7 rounded-xl overflow-hidden relative">
+    {/* <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] md:ms-1 lg:ms-7 rounded-xl overflow-hidden relative"> */}
       
       {/* Cover Image */}
-      <img src="/Cover.png" alt="" className=" w-full object-cover" />
+      <img src="/Cover.png" alt="" className=" w-full h-16 object-cover" />
 
       {/* Profile Photo */}
       <img
         src={user.data?.user?.photo}
-        className="h-10 w-10 rounded-full border-1 absolute top-[60px] left-[15px] bg-slate-200 border-[#ffffff] shadow-md shadow-neutral-600 ms-[20px] mb-2 mt-[-20px] object-cover"
+        className="h-10 w-10 rounded-full border-1 absolute  top-[65px]  left-[15px] bg-slate-200 border-[#ffffff] shadow-md shadow-neutral-600 ms-[20px] mb-2 mt-[-20px] object-cover"
         alt=""
       />
 
       {/* Name */}
-      <p className="text-start mx-[20px] my-8 text-[#000000]">{user.data?.user?.name}</p>
+      <p className="text-start mx-[20px] mt-8 mb-5 text-[#000000]">{user.data?.user?.name}</p>
 
       {/* Navigation */}
       <div>
@@ -58,7 +58,7 @@ const SideNav = () => {
           </NavLink>
         </ul>
       </div>
-    </div>
+    {/* </div> */}
     
     </>
   );

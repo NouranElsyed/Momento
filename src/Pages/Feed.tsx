@@ -31,7 +31,7 @@ const Feed = () => {
   }
   const posts = dataPosts.posts;
   return (
-    <div className="w-4/6 mx-auto flex flex-col  gap-10">
+    <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-10">
       {posts &&
         posts.map((post: IPost) => (
           <div

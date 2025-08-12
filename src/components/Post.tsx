@@ -2,6 +2,8 @@ import type { IComment, IPost } from "../interface";
 import Comment from "../components/Comment";
 import { useGetCommentsQuery } from "../app/features/api/apiSlice";
 import { Fragment, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 const Post = ({ id, body, user, image }: IPost) => {
   const { data } = useGetCommentsQuery(id);
   console.log(data);
@@ -20,10 +22,11 @@ const Post = ({ id, body, user, image }: IPost) => {
       <div className="w-full border-b border-neutral-300 my-3"></div>
       <div
         onClick={handleComments}
-        className="flex gap-2 text-base justify-center cursor-pointer text-[#646464] hover:text-blue-400 "
+        className="flex gap-2 text-base justify-center items-center cursor-pointer text-[#646464] hover:text-blue-400 "
       >
         <span>{data?.total}</span>
         <p>Comments</p>
+        <FontAwesomeIcon icon={faCommentDots} />
       </div>
       {showComments &&
         data?.comments.map((comment: IComment, index: number) => (
