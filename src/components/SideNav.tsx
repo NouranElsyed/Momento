@@ -1,18 +1,26 @@
 import { NavLink } from "react-router-dom";
 import { useGetUserQuery } from "../app/features/api/apiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faHouse, faMessage, faUser } from "@fortawesome/free-regular-svg-icons";
+import {
+  faBell,
+  faHouse,
+  faMessage,
+  faUser,
+} from "@fortawesome/free-regular-svg-icons";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-
-const SideNav = () => {
+const SideNav = ({ showSideNav }: { showSideNav: boolean }) => {
   const user = useGetUserQuery(null);
-
+ const logOut = () => {
+    localStorage.removeItem("user");
+    location.replace("/auth/login");
+  };
   console.log(user.data?.user, user.error, user.isLoading);
 
   return (
     <>
-    {/* <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] md:ms-1 lg:ms-7 rounded-xl overflow-hidden relative"> */}
-      
+      <div className="rounded-xl overflow-hidden relative">
+
       {/* Cover Image */}
       <img src="/Cover.png" alt="" className=" w-full h-16 object-cover" />
 
@@ -24,7 +32,9 @@ const SideNav = () => {
       />
 
       {/* Name */}
-      <p className="text-start mx-[20px] mt-8 mb-5 text-[#000000]">{user.data?.user?.name}</p>
+      <p className="text-start mx-[20px] mt-8 mb-5 text-[#000000]">
+        {user.data?.user?.name}
+      </p>
 
       {/* Navigation */}
       <div>
@@ -56,10 +66,21 @@ const SideNav = () => {
               <span>Notifications</span>
             </li>
           </NavLink>
+          {showSideNav && 
+          <>
+          <div className="w-full border-b-1 border-b-neutral-300"></div>
+          <div
+            onClick={logOut}
+            className="flex gap-2 items-center font-sm ps-1 text-red-600 cursor-pointer "
+          >
+            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            <a>Logout</a>
+          </div>
+          </>
+          }
         </ul>
       </div>
-    {/* </div> */}
-    
+      </div>
     </>
   );
 };

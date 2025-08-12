@@ -11,7 +11,7 @@ const UploadPhoto = () => {
   const [loading, setLoading] = useState(false);
   const [formData] = useState(new FormData());
   const [hasPhoto, setHasPhoto] = useState(false);
-
+const [preview, setPreview] = useState<string | null>(null);
   console.log(formData);
 
   const { data } = useGetUserQuery(null);
@@ -24,6 +24,8 @@ const UploadPhoto = () => {
         position: "top-center",
       });
       return;
+    }else{
+       setPreview(URL.createObjectURL(file));
     }
     formData.append("photo", file);
     setHasPhoto(true);
@@ -66,7 +68,11 @@ const UploadPhoto = () => {
   return (
     <div className="w-full h-full  flex flex-col gap-5 justify-center items-center my-10">
       <div className="w-20 h-20 rounded-full overflow-hidden bg-slate-200">
-        <img src={data?.user?.photo} alt="" />
+         {preview ? (
+        <img src={preview} alt="Preview"  />
+      ) : (
+        <img src={data?.user?.photo} alt="Current"  />
+      )}
       </div>
       <input
         type="file"

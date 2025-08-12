@@ -16,8 +16,8 @@ const Feed = () => {
   if (isLoading || !dataPosts) {
     return (
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
-        <div className="w-3/4 mx-auto flex flex-col  gap-10">
-          <div className=" bg-[#ffffff] border  border-[#dadde0db] w-11/12 mx-auto rounded-2xl px-10 py-7">
+        <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-10">
+          <div className=" bg-[#ffffff] border  border-[#dadde0db] w-full mx-auto rounded-2xl px-10 pt-7 pb-3">
             <div className=" flex items-center gap-2 w-full mb-5">
               <Skeleton circle height={40} width={40} />
               <Skeleton height={20} width={100} />
