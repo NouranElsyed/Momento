@@ -57,7 +57,7 @@ const Login = () => {
           });
           setTimeout(() => {
             location.replace("/");
-          }, 10000);
+          }, 1000);
         }
       } catch (error) {
         console.log(error);

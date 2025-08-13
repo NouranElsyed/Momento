@@ -48,7 +48,7 @@ const UploadPhoto = () => {
         });
         setTimeout(() => {
           location.replace("/profile/settings");
-        }, 2000);
+        }, 700);
       }
     } catch (error) {
       console.log(error);

@@ -69,7 +69,7 @@ const Register = () => {
           });
           setTimeout(() => {
             location.replace("/auth/login");
-          }, 1500);
+          }, 700);
         }
       } catch (error) {
         console.log(error);

@@ -22,8 +22,8 @@ export const validateRegister = ({
     errorMsg.name = "Name is required";
   } else if (name.length < 3) {
     errorMsg.name = "Name must be at least 3  characters";
-  } else if (name.length > 10) {
-    errorMsg.name = "Name must not exceed 10 characters";
+  } else if (name.length > 20) {
+    errorMsg.name = "Name must not exceed 20 characters";
   }
 
 

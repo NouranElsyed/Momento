@@ -47,7 +47,7 @@ const MainLayout = () => {
       <div
         className={`outlet w-full min-h-screen bg-[#f6f9fd] flex ${
           showSideNav ? "flex-col md:flex-row" : ""
-        } md:px-5 lg:px-10 gap-5 pt-25 relative`}
+        } md:px-5 lg:px-10 gap-5 py-20 relative`}
       >
         <AnimatePresence>
         {showSideNav && (

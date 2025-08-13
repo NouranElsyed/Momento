@@ -11,8 +11,7 @@ const Feed = () => {
   const user = useGetUserQuery(null);
   console.log(user.data?.user, user.error, user.isLoading);
   const { data: dataPosts, isLoading } = useGetPostsQuery(null);
-  console.log(dataPosts);
-
+  
   if (isLoading || !dataPosts) {
     return (
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
@@ -30,10 +29,12 @@ const Feed = () => {
     );
   }
   const posts = dataPosts.posts;
+  
   return (
     <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-10">
       {posts &&
-        posts.map((post: IPost) => (
+         [...posts]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 20).map((post: IPost) => (
           <div
             key={post.id}
             className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7 pb-3"
