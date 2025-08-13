@@ -28,6 +28,7 @@ const Post = ({ id, body, user, image }: IPost) => {
         <p>Comments</p>
         <FontAwesomeIcon icon={faCommentDots} />
       </div>
+      {showComments && <div className="w-full border-b border-neutral-300 my-3"></div>}
       {showComments &&
         data?.comments.map((comment: IComment, index: number) => (
           <Fragment key={index}>
