@@ -19,7 +19,7 @@ const MainLayout = () => {
   const toggleSideNav = () => {
     setShowSetNav((prev) => !prev);
   };
-  return (
+  return ( 
     <>
       <Navbar className="z-50">
         <NavLink to={'/'} className="font-bold px-7 text-md flex gap-2  items-center">
