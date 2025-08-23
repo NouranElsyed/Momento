@@ -37,7 +37,7 @@ const Feed = () => {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 20).map((post: IPost) => (
           <div
             key={post.id}
-            className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7 pb-3"
+            className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
           >
             <Post
               user={post.user}

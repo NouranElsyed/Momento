@@ -13,10 +13,7 @@ const Post = ({ id, body, user, image }: IPost) => {
       </div>
       <p className="text-start mb-5  px-10">{body}</p>
       <img src={image} alt="post-img" className=" px-10" />
-     
-            <Comment postID={id}/>
-          
-    
+      <Comment postID={id}/>
     </>
   );
 };

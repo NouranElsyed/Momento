@@ -8,6 +8,7 @@ import {
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { memo } from "react";
 
 const SideNav = ({ showSideNav }: { showSideNav: boolean }) => {
   const user = useGetUserQuery(null);
@@ -27,12 +28,12 @@ const SideNav = ({ showSideNav }: { showSideNav: boolean }) => {
       {/* Profile Photo */}
       <img
         src={user.data?.user?.photo}
-        className="h-10 w-10 rounded-full border-1 absolute  top-[65px]  left-[15px] bg-slate-200 border-[#ffffff] shadow-md shadow-neutral-600 ms-[20px] mb-2 mt-[-20px] object-cover"
+        className="h-10 w-10 rounded-full border-1 absolute  top-[65px]  left-[7px] bg-slate-200 border-[#ffffff] shadow-md shadow-neutral-600 ms-[20px] mb-2 mt-[-20px] object-cover"
         alt=""
       />
 
       {/* Name */}
-      <p className="text-start mx-[20px] mt-8 mb-5 text-[#000000]">
+      <p className="text-start mx-[25px] mt-8 mb-5 text-[#000000]">
         {user.data?.user?.name}
       </p>
 
@@ -85,4 +86,4 @@ const SideNav = ({ showSideNav }: { showSideNav: boolean }) => {
   );
 };
 
-export default SideNav;
+export default memo(SideNav);

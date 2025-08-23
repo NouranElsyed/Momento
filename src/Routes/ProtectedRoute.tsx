@@ -16,22 +16,14 @@ const ProtectedRoute = ({ children, forPublic, redirectTo }: IProps) => {
   // if (!(!!data&&forPublic)) return <Navigate to={redirectTo} />;
   if (!data) {
     if (forPublic) {
-      console.log("!data forPublic");
       return children;
     } else {
-      console.log("!data !forPublic");
-
       return <Navigate to={redirectTo} />;
     }
   } else {
-      console.log(data);
     if (!forPublic) {
-      console.log("data !forPublic");
-
       return children;
     } else {
-      console.log("data forPublic");
-
       return <Navigate to={redirectTo} />;
     }
   }
