@@ -14,6 +14,7 @@ import MyPosts from "../Pages/Profile/MyPosts";
 import Settings from "../Pages/Profile/settings/Settings";
 import UploadPhoto from "../Pages/Profile/settings/UploadPhoto";
 import ChangePassword from "../Pages/Profile/settings/ChangePassword";
+import SinglePost from "../Pages/SinglePost";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,19 +28,20 @@ const router = createBrowserRouter(
         }
       >
         <Route index element={<Feed />} />
+        <Route path="post/:id" element={<SinglePost />} />
         <Route path="profile" element={<Profile />}>
-          <Route index element={<MyPosts />}/>
-          <Route path="savedposts" element={<MyPosts/>} />
-          <Route path="settings" element={<Settings/>}>
-                <Route index element={<UploadPhoto/>}/>
-                <Route path="changepassword" element={<ChangePassword/>}/>
+          <Route index element={<MyPosts />} />
+          <Route path="savedposts" element={<MyPosts />} />
+          <Route path="settings" element={<Settings />}>
+            <Route index element={<UploadPhoto />} />
+            <Route path="changepassword" element={<ChangePassword />} />
           </Route>
         </Route>
       </Route>
       <Route
         path="/auth"
         element={
-          <ProtectedRoute  redirectTo="/" forPublic={true}>
+          <ProtectedRoute redirectTo="/" forPublic={true}>
             <AuthLayout />
           </ProtectedRoute>
         }

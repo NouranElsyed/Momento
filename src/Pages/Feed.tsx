@@ -1,6 +1,6 @@
 import {
   useGetPostsQuery,
-  useGetUserQuery,
+  // useGetUserQuery,
 } from "../app/features/api/apiSlice";
 import Post from "../components/Post";
 import type { IPost } from "../interface";
@@ -8,10 +8,10 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Feed = () => {
-  const user = useGetUserQuery(null);
-  console.log(user.data?.user, user.error, user.isLoading);
+  // const user = useGetUserQuery(null);
+  // console.log(user.data?.user, user.error, user.isLoading);
   const { data: dataPosts, isLoading } = useGetPostsQuery(null);
-  
+
   if (isLoading || !dataPosts) {
     return (
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
@@ -29,24 +29,29 @@ const Feed = () => {
     );
   }
   const posts = dataPosts.posts;
-  
+
   return (
     <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-10">
       {posts &&
-         [...posts]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 20).map((post: IPost) => (
-          <div
-            key={post.id}
-            className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
-          >
-            <Post
-              user={post.user}
-              body={post.body}
-              image={post.image}
-              id={post.id}
-            />
-          </div>
-        ))}
+        [...posts]
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .slice(0, 20)
+          .map((post: IPost) => (
+            <div
+              key={post.id}
+              className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
+            >
+              <Post
+                user={post.user}
+                body={post.body}
+                image={post.image}
+                id={post.id}
+              />
+            </div>
+          ))}
     </div>
   );
 };

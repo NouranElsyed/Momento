@@ -6,9 +6,14 @@ import {
   useGetCommentsQuery,
   useGetUserQuery,
 } from "../app/features/api/apiSlice";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faPen,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import api from "../config/api.config";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const Comment = ({ postID }: { postID: string | undefined }) => {
   //** getting user and comments data */
@@ -55,7 +60,6 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
       console.log(error);
     }
   };
-
   //** Return */
   return (
     <>
@@ -86,7 +90,7 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
         <div className="flex gap-1 my-2 items-start">
           <img
             src={user.data?.user?.photo}
-            className="h-10 w-10 rounded-full border-1 ms-5 bg-slate-200 border-[#ffffff] shadow-md shadow-neutral-600 object-cover"
+            className="h-10 w-10 rounded-full border-1 ms-5 bg-slate-200 border-[#ffffff] shadow-sm shadow-neutral-600 object-cover"
             alt=""
           />
           <div className="flex flex-1 gap-2 items-center me-5">
@@ -98,19 +102,25 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
                 setComment((prev) => ({ ...prev, content: e.target.value }));
               }}
             />
-            <div
+            <motion.div
               onClick={submitComment}
-              className="w-8 h-8  rounded-full bg-blue-500 text-white text-sm relative"
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              className="w-8 h-8 rounded-full bg-blue-500 text-white text-sm relative"
             >
               <FontAwesomeIcon
                 icon={faArrowRight}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       )}
+      {showComments && data?.comments?.length === 0 && (
+        <p className="pb-5 text-[#646464]"> No Comments yet</p>
+      )}
       {showComments &&
+        data?.comments?.length > 0 &&
         data?.comments.map((comment: IComment, index: number) => (
           <div
             key={index}
@@ -123,13 +133,27 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
               // className="w-[30px] h-[30px] bg-blue-200 rounded-full mt-1"
               className="h-10 w-10 rounded-full border-1 mx-3 bg-slate-200 border-[#ffffff] shadow-xs shadow-neutral-600 object-cover"
             />
-            <div className="bg-[#cccbcb55] w-9/10 flex flex-col items-start rounded-2xl py-2 shadow-xs shadow-neutral-600">
-              <h5 className="ps-3 text-xs font-bold">
-                {comment.commentCreator?.name}
-              </h5>
-              <p className="rounded-2xl py-1 ps-5 text-[#474646]">
-                {comment.content}
-              </p>
+            <div className="bg-[#cccbcb55] w-9/10 flex justify-between items-center rounded-2xl py-2 shadow-xs shadow-neutral-600">
+              <div className="flex flex-col items-start">
+                {" "}
+                <h5 className="ps-3 text-xs font-bold">
+                  {comment.commentCreator?.name}
+                </h5>
+                <p className="rounded-2xl py-1 ps-5 text-[#474646]">
+                  {comment.content}
+                </p>
+              </div>
+              <div className="me-5 flex gap-3">
+                <FontAwesomeIcon
+                  icon={faPen}
+                  className=" text-blue-900 hover:text-blue-400 transform duration-300"
+                />
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  className=" text-red-700 hover:text-red-400 transform
+                duration-300"
+                />
+              </div>
             </div>
           </div>
         ))}
