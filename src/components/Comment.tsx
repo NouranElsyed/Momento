@@ -72,7 +72,7 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
           <FontAwesomeIcon icon={faCommentDots} />
           <p>write a comment</p>
         </div>
-        <div className="h-full border-r border-neutral-300 my-3"></div>
+        <div className="h-full border-r w-px border-neutral-300 my-3"></div>
 
         <div
           className="showComments flex gap-2 items-center py-3  hover:text-blue-400"

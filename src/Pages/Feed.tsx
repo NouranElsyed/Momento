@@ -2,6 +2,7 @@ import {
   useGetPostsQuery,
   // useGetUserQuery,
 } from "../app/features/api/apiSlice";
+import CreatePost from "../components/CreatePost";
 import Post from "../components/Post";
 import type { IPost } from "../interface";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -31,14 +32,15 @@ const Feed = () => {
   const posts = dataPosts.posts;
 
   return (
-    <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-10">
+    <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-7">
+      <CreatePost />
       {posts &&
         [...posts]
           .sort(
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
-          .slice(0, 20)
+          .slice(0, 30)
           .map((post: IPost) => (
             <div
               key={post.id}

@@ -75,7 +75,9 @@ const Profile = () => {
           </li>
         </ul>
       </div>
-      <div className="mb-5"><Outlet /></div>
+      <div className="mb-5">
+        <Outlet />
+      </div>
     </div>
   );
 };

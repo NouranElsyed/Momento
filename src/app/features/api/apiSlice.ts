@@ -29,14 +29,14 @@ export const apiSlice = createApi({
     getPosts: builder.query({
       query: () => "/posts",
     }),
+    getPost: builder.query({
+      query: (id) => `/posts/${id}`,
+    }),
     getUserPosts: builder.query({
       query: (id) => `/users/${id}/posts?limit=10`,
     }),
     getComments: builder.query({
       query: (id) => `/posts/${id}/comments`,
-    }),
-    getPost: builder.query({
-      query: (id) => `/posts/${id}`,
     }),
   }),
 });
