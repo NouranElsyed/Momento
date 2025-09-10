@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentDots, faComments } from "@fortawesome/free-regular-svg-icons";
 import {
+  useAddCommentMutation,
   useGetCommentsQuery,
   useGetUserQuery,
 } from "../app/features/api/apiSlice";
@@ -11,7 +12,6 @@ import {
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import api from "../config/api.config";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
@@ -19,6 +19,7 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
   //** getting user and comments data */
   const user = useGetUserQuery(null);
   const { data } = useGetCommentsQuery(postID);
+  const [addComment] = useAddCommentMutation();
   //**  show comments state and handle showing comments*/
   const [showComments, setShowComments] = useState(false);
   const handleComments = () => {
@@ -35,27 +36,14 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
     post: postID,
   });
   const submitComment = async () => {
-    console.log(comment);
-    const body = comment;
-    setComment((prev) => ({ ...prev, content: "" }));
     if (!comment.content.trim()) return;
-    const userToken = localStorage.getItem("user");
-    const useTokenParsed = userToken ? JSON.parse(userToken) : null;
-    const token = useTokenParsed.token;
     try {
-      const res = await api.post("/comments", body, {
-        headers: {
-          token: token,
-        },
+      await addComment(comment).unwrap();
+      setComment((prev) => ({ ...prev, content: "" }));
+      toast.success("comment submitted successfully", {
+        duration: 2000,
+        position: "bottom-right",
       });
-      console.log(res);
-      if (res.status === 200 || res.status === 201) {
-        localStorage.setItem("user", JSON.stringify(res.data));
-        toast.success("comment submitted successfully", {
-          duration: 2000,
-          position: "bottom-right",
-        });
-      }
     } catch (error) {
       console.log(error);
     }

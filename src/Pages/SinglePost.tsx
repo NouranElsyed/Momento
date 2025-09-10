@@ -32,6 +32,7 @@ const SinglePost = () => {
             body={postData.post.body}
             image={postData.post.image}
             id={postData.post.id}
+            createdAt={postData.post.createdAt}
           />
         </div>
       </div>

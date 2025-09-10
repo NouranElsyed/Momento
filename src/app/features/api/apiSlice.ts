@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["Api"],
+  tagTypes: ["posts", "comments"],
   baseQuery: fetchBaseQuery({
     baseUrl: "https://linked-posts.routemisr.com/",
     prepareHeaders: (headers) => {
-      const userToken = localStorage.getItem("user");
-      const useTokenParsed = userToken ? JSON.parse(userToken) : null;
-      const token = useTokenParsed.token;
+      const token = JSON.parse(localStorage.getItem("user") ?? "{}").token;
       try {
         if (token) {
           headers.set("token", token);
@@ -27,16 +25,35 @@ export const apiSlice = createApi({
       },
     }),
     getPosts: builder.query({
-      query: () => "/posts",
+      query: (page) => `/posts?limit=10&page=${page}`,
+      providesTags: ["posts"],
     }),
     getPost: builder.query({
       query: (id) => `/posts/${id}`,
     }),
     getUserPosts: builder.query({
-      query: (id) => `/users/${id}/posts?limit=10`,
+      query: (id) => `/users/${id}/posts`,
+      providesTags: ["posts"],
+    }),
+    addPost: builder.mutation({
+      query: (body) => ({
+        url: "/posts",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["posts"],
     }),
     getComments: builder.query({
       query: (id) => `/posts/${id}/comments`,
+      providesTags: ["comments"],
+    }),
+    addComment: builder.mutation({
+      query: (body) => ({
+        url: "/comments",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["comments"],
     }),
   }),
 });
@@ -47,4 +64,6 @@ export const {
   useGetUserPostsQuery,
   useGetUserQuery,
   useGetPostsQuery,
+  useAddCommentMutation,
+  useAddPostMutation,
 } = apiSlice;

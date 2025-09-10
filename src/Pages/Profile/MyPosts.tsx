@@ -26,19 +26,26 @@ const MyPosts = () => {
     <div className="w-full mx-auto flex flex-col  gap-7">
       <CreatePost />
       {userPosts &&
-        userPosts?.posts.map((post: IPost) => (
-          <div
-            key={post.id}
-            className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
-          >
-            <Post
-              id={post.id}
-              user={post.user}
-              body={post.body}
-              image={post.image}
-            />
-          </div>
-        ))}
+        [...userPosts.posts]
+          .sort(
+            (a: IPost, b: IPost) =>
+              new Date(b.createdAt ?? 0).getTime() -
+              new Date(a.createdAt ?? 0).getTime()
+          )
+          .map((post: IPost) => (
+            <div
+              key={post.id}
+              className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
+            >
+              <Post
+                id={post.id}
+                user={post.user}
+                body={post.body}
+                image={post.image}
+                createdAt={post.createdAt}
+              />
+            </div>
+          ))}
     </div>
   );
 };

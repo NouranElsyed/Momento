@@ -14,9 +14,15 @@ import { useGetUserQuery } from "../app/features/api/apiSlice";
 import { useRef, useState, type ChangeEvent } from "react";
 import { motion } from "motion/react";
 import type { AxiosError } from "axios";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-const Post = ({ id, body, user, image }: IPost) => {
-  // ** edit state*/
+const Post = ({ id, body, user, image, createdAt }: IPost) => {
+  console.log(createdAt);
+  // ** calc post time */
+  dayjs.extend(relativeTime);
+
+  // ** edit state */
   const [isEditting, setIsEditting] = useState(false);
 
   // ** get logined user */
@@ -138,7 +144,12 @@ const Post = ({ id, body, user, image }: IPost) => {
                 alt="userImg"
                 className="w-12 h-12 rounded-full border-2 border-[#bdbdbd] object-cover bg-slate-200 "
               />
-              <h5 className="">{user?.name}</h5>
+              <div className="flex flex-col items-start">
+                <h5 className="text-md">{user?.name}</h5>
+                <span className="text-gray-400 text-xs">
+                  {dayjs(createdAt).fromNow()}
+                </span>
+              </div>
             </div>
             <p className="text-start mb-5  px-10">{body}</p>
             <img src={image} alt="post-img" className=" px-10 w-full" />

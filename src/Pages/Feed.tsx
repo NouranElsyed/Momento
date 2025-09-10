@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   useGetPostsQuery,
   // useGetUserQuery,
@@ -9,10 +10,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const Feed = () => {
-  // const user = useGetUserQuery(null);
-  // console.log(user.data?.user, user.error, user.isLoading);
-  const { data: dataPosts, isLoading } = useGetPostsQuery(null);
-
+  const [lastPage, setLastPage] = useState(1);
+  const { data: dataPosts, isLoading } = useGetPostsQuery(lastPage);
+  useEffect(() => {
+    console.log(dataPosts?.paginationInfo);
+    setLastPage(dataPosts?.paginationInfo?.numberOfPages);
+  }, [dataPosts]);
   if (isLoading || !dataPosts) {
     return (
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
@@ -40,7 +43,7 @@ const Feed = () => {
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
-          .slice(0, 30)
+          .slice(0, 40)
           .map((post: IPost) => (
             <div
               key={post.id}
@@ -51,6 +54,7 @@ const Feed = () => {
                 body={post.body}
                 image={post.image}
                 id={post.id}
+                createdAt={post.createdAt}
               />
             </div>
           ))}

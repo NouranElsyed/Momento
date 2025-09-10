@@ -1,5 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useGetUserQuery } from "../app/features/api/apiSlice";
+import {
+  useAddPostMutation,
+  useGetUserQuery,
+} from "../app/features/api/apiSlice";
 import { motion } from "motion/react";
 import { useRef, useState, type ChangeEvent } from "react";
 import {
@@ -7,17 +10,19 @@ import {
   faPaperPlane,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import api from "../config/api.config";
 import toast from "react-hot-toast";
-import type { AxiosError } from "axios";
-import type { IAxiosError } from "../interface";
+
 const CreatePost = () => {
+  const [addpostMutation] = useAddPostMutation();
+
   //** getting user data */
   const user = useGetUserQuery(null);
+
   //**  store post details*/
   const [body, setBody] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const [preview, setPreview] = useState<boolean>(false);
+
   //** take Ref for formData and input file */
   const formDataRef = useRef<FormData>(new FormData());
   const inputFileRef = useRef<HTMLInputElement | null>(null);
@@ -49,30 +54,18 @@ const CreatePost = () => {
   //** submit handler */
   const submitPost = async () => {
     formDataRef.current.append("body", body);
-    const tokenData = JSON.parse(localStorage.getItem("user") ?? "{}");
-    console.log(tokenData.token);
+    console.log(formDataRef);
     try {
-      const response = await api.post("/posts", formDataRef.current, {
-        headers: {
-          token: tokenData.token,
-        },
+      await addpostMutation(formDataRef.current).unwrap();
+      setBody("");
+      removePreview();
+      toast.success("post created successfully", {
+        duration: 2000,
+        position: "top-center",
       });
-      if (response.status == 201) {
-        setBody("");
-        removePreview();
-        location.replace("/profile");
-        toast.success("post created successfully", {
-          duration: 2000,
-          position: "top-center",
-        });
-      }
-      console.log(response);
-    } catch (error) {
-      const AxiosErr = error as AxiosError<IAxiosError>;
-      console.log(AxiosErr?.response?.data);
-      const MsgErr =
-        AxiosErr?.response?.data?.error || "An unexpected error has occurred";
-      toast.error(MsgErr, {
+    } catch (error: unknown) {
+      const err = error as { data?: { error?: string }; status?: number };
+      toast.error(err?.data?.error || "An unexpected error occurred", {
         duration: 2000,
         position: "top-center",
       });
