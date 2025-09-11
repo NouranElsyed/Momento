@@ -1,47 +1,20 @@
-import { NavLink, Outlet } from "react-router-dom";
+import {  Outlet } from "react-router-dom";
 import Navbar from "../components/ui/Navbar";
 import SideNav from "../components/SideNav";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  faArrowRightFromBracket,
-  faCircleChevronDown,
-  faCircleChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../app/store";
 
 const MainLayout = () => {
-  const logOut = () => {
-    localStorage.removeItem("user");
-    location.replace("/auth/login");
-  };
-  const [showSideNav, setShowSetNav] = useState(false);
-  const toggleSideNav = () => {
-    setShowSetNav((prev) => !prev);
-  };
+
+  const showSideNav = useSelector(
+    (state: RootState) => state.sideNav.showSideNav
+  );
+
   return ( 
     <>
       <Navbar className="z-50">
-        <NavLink to={'/'} className="font-bold px-7 text-md flex gap-2  items-center">
-          <img src="/Logo.svg" alt="Monento logo" className="MonentoLogo" />
-          <h2>Momento</h2>
-        </NavLink>
-
-        <div
-          onClick={logOut}
-          className="hidden md:flex items-center gap-1.5 px-5 font-sm  text-red-600 cursor-pointer "
-        >
-          <a>Logout</a>
-          <FontAwesomeIcon icon={faArrowRightFromBracket} />
-        </div>
-        <div
-          onClick={toggleSideNav}
-          className="block md:hidden px-5 font-sm  text-blue-600 cursor-pointer "
-        >
-          {(!showSideNav && <FontAwesomeIcon icon={faCircleChevronDown} />) || (
-            <FontAwesomeIcon icon={faCircleChevronUp} />
-          )}
-        </div>
+       
       </Navbar>
 
       <div

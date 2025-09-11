@@ -15,6 +15,7 @@ import Settings from "../Pages/Profile/settings/Settings";
 import UploadPhoto from "../Pages/Profile/settings/UploadPhoto";
 import ChangePassword from "../Pages/Profile/settings/ChangePassword";
 import SinglePost from "../Pages/SinglePost";
+import Page404 from "../Pages/Page404";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       >
+        <Route path="*" element={<Page404/>} ></Route>
         <Route index element={<Feed />} />
         <Route path="post/:id" element={<SinglePost />} />
         <Route path="profile" element={<Profile />}>
