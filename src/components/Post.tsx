@@ -8,9 +8,8 @@ import {
   faPen,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import api from "../config/api.config";
 import toast from "react-hot-toast";
-import { useGetUserQuery } from "../app/features/api/apiSlice";
+import { useDeletePostMutation, useGetUserQuery, useUpdatePostMutation } from "../app/features/api/apiSlice";
 import { useRef, useState, type ChangeEvent } from "react";
 import { motion } from "motion/react";
 import type { AxiosError } from "axios";
@@ -18,6 +17,10 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 const Post = ({ id, body, user, image, createdAt }: IPost) => {
+    const [deletePostMutation] = useDeletePostMutation();
+    const [updatePostMutation] = useUpdatePostMutation();
+
+  
   console.log(createdAt);
   // ** calc post time */
   dayjs.extend(relativeTime);
@@ -62,26 +65,15 @@ const Post = ({ id, body, user, image, createdAt }: IPost) => {
     }
     console.log(formData.get("image"));
     console.log(typeof editBody);
-    const tokenData = JSON.parse(localStorage.getItem("user") ?? "{}");
-    console.log(tokenData.token);
     try {
-      const response = await api.put(`/posts/${id}`, formData, {
-        headers: {
-          token: tokenData.token,
-        },
-      });
-      console.log(response.status);
-      if (response.status == 201 || response.status == 200) {
-        setTimeout(() => {
-          location.replace("/profile");
-        }, 2000);
+      await updatePostMutation({id,body:formData}).unwrap()
         toast.success("post updated successfully", {
           duration: 2000,
           position: "top-center",
         });
+        setIsEditting(false)
       }
-      console.log(response);
-    } catch (error) {
+       catch (error) {
       const AxiosErr = error as AxiosError<IAxiosError>;
       console.log(AxiosErr?.response?.data);
       const MsgErr =
@@ -92,27 +84,22 @@ const Post = ({ id, body, user, image, createdAt }: IPost) => {
       });
     }
   };
-  // ** delete post fun*/
+  // ** delete post function*/
   const deletePost = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const token = JSON.parse(localStorage.getItem("user") ?? "{}").token;
     try {
-      const response = await api.delete(`/posts/${id}`, {
-        headers: {
-          token: token,
-        },
-      });
-      if (response.status === 200) {
+      await deletePostMutation(id).unwrap()
         toast.success("post deleted successfully", {
           duration: 2000,
           position: "top-center",
-        });
-        location.replace("/profile");
-      }
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+        });   
+    }  catch (error: unknown) {
+      const err = error as { data?: { error?: string }; status?: number };
+      toast.error(err?.data?.error || "An unexpected error occurred", {
+        duration: 2000,
+        position: "top-center",
+      });
     }
   };
   return (

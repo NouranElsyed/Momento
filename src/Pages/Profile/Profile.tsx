@@ -3,6 +3,7 @@ import {
   useGetUserPostsQuery,
   useGetUserQuery,
 } from "../../app/features/api/apiSlice";
+import SuggestFriends from "../../components/SuggestFriends";
 
 const Profile = () => {
   const { isError, data, isLoading } = useGetUserQuery(null);
@@ -12,7 +13,7 @@ const Profile = () => {
   );
   console.log(isError, data, isLoading, userPosts);
   return (
-    <div className="flex flex-col gap-5 w-9/10 md:w-5/6 lg:w-4/6   mx-auto ">
+    <div className="flex flex-col gap-5 w-9/10 md:w-4/6 lg:w-5/7 mx-auto  md:ms-auto">
       <div className=" bg-[#ffffff] border border-[#dadde0db] h-fit rounded-2xl overflow-hidden">
         <div className="flex  justify-between items-center px-10 py-8 flex-col gap-5 md:flex-row text-[#000000]">
           <div className="user flex flex-col md:flex-row  gap-3 items-center">
@@ -75,9 +76,10 @@ const Profile = () => {
           </li>
         </ul>
       </div>
-      <div className="mb-5">
+      <div className="flex w-full justify-between gap-7">
         <Outlet />
-      </div>
+         <SuggestFriends/>
+    </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import Post from "../components/Post";
 import type { IPost } from "../interface";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import SuggestFriends from "../components/SuggestFriends";
 
 const Feed = () => {
   const [lastPage, setLastPage] = useState(1);
@@ -30,12 +31,16 @@ const Feed = () => {
           </div>
         </div>
       </SkeletonTheme>
+   
+  
     );
   }
   const posts = dataPosts.posts;
 
   return (
-    <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-7">
+    
+        <div className="flex w-9/10 mx-auto justify-between">
+           <div className="w-full sm:9/10 md:w-4/7 mx-auto flex flex-col gap-7">
       <CreatePost />
       {posts &&
         [...posts]
@@ -47,8 +52,8 @@ const Feed = () => {
           .map((post: IPost) => (
             <div
               key={post.id}
-              className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
-            >
+                    className="flex flex-col justify-center bg-[#ffffff] border border-[#dadde0db] text-[#000000] rounded-2xl pt-7"
+                  >
               <Post
                 user={post.user}
                 body={post.body}
@@ -56,9 +61,16 @@ const Feed = () => {
                 id={post.id}
                 createdAt={post.createdAt}
               />
-            </div>
+              </div>
           ))}
-    </div>
+          </div>
+          <SuggestFriends/>
+    
+        </div>
+               
+
+   
+   
   );
 };
 export default Feed;

@@ -43,6 +43,21 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["posts"],
     }),
+    deletePost: builder.mutation({
+      query: (id)=>({
+        url:`/posts/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["posts"],
+    }),
+      updatePost: builder.mutation({
+      query: ({id,body})=>({
+        url:`/posts/${id}`,
+        method: "PUT",
+          body,
+      }),
+      invalidatesTags: ["posts"],
+    }),
     getComments: builder.query({
       query: (id) => `/posts/${id}/comments`,
       providesTags: ["comments"],
@@ -66,4 +81,6 @@ export const {
   useGetPostsQuery,
   useAddCommentMutation,
   useAddPostMutation,
+  useDeletePostMutation,
+  useUpdatePostMutation
 } = apiSlice;

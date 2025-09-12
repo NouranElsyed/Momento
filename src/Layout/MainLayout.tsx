@@ -16,11 +16,10 @@ const MainLayout = () => {
       <Navbar className="z-50">
        
       </Navbar>
-
       <div
-        className={`outlet w-full min-h-screen bg-[#f6f9fd] flex ${
+        className={` w-full min-h-screen bg-[#f6f9fd] flex ${
           showSideNav ? "flex-col md:flex-row" : ""
-        } md:px-5 lg:px-10 gap-5 py-20 relative`}
+        } md:px-2 lg:px-20 py-20 relative`}
       >
         <AnimatePresence>
         {showSideNav && (
@@ -36,8 +35,8 @@ const MainLayout = () => {
          </motion.div>
         )}
         </AnimatePresence>
-        <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464] md:ms-1 lg:ms-7 rounded-xl  ">
-          <SideNav showSideNav={!showSideNav} />
+        <div className="h-fit w-[250px] hidden md:block infoBox bg-[#ffffff] border border-[#dadde0db]  text-[#646464]  rounded-xl  ">
+          <SideNav showSideNav={showSideNav} />
         </div>
         <Outlet />
       </div>

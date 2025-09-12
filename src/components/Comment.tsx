@@ -51,8 +51,8 @@ const Comment = ({ postID }: { postID: string | undefined }) => {
   //** Return */
   return (
     <>
-      <div className="w-full border-b border-neutral-300 mt-5"></div>
-      <div className=" w-8/10 md:w-7/10 mx-auto flex text-base justify-between items-center cursor-pointer text-[#646464] ">
+      <div className="w-full border-b border-neutral-300 mt-5 "></div>
+      <div className="w-8/10 md:w-9/10 lg:w-8/10 mx-auto flex text-base justify-between items-center cursor-pointer text-[#646464] ">
         <div
           className="writeComment flex gap-2 items-center py-3  hover:text-blue-400"
           onClick={handleComment}
