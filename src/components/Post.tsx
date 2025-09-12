@@ -1,6 +1,6 @@
 import type { IAxiosError, IPost } from "../interface";
 import Comment from "../components/Comment";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLink,
@@ -19,7 +19,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 const Post = ({ id, body, user, image, createdAt }: IPost) => {
     const [deletePostMutation] = useDeletePostMutation();
     const [updatePostMutation] = useUpdatePostMutation();
-
+  const navigate = useNavigate()
   
   console.log(createdAt);
   // ** calc post time */
@@ -94,6 +94,8 @@ const Post = ({ id, body, user, image, createdAt }: IPost) => {
           duration: 2000,
           position: "top-center",
         });   
+         if (location.pathname.includes(`/post/${id}`)) {
+        navigate("/");}
     }  catch (error: unknown) {
       const err = error as { data?: { error?: string }; status?: number };
       toast.error(err?.data?.error || "An unexpected error occurred", {

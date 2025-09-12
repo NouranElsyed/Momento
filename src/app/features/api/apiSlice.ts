@@ -70,6 +70,21 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["comments"],
     }),
+    deleteComment: builder.mutation({
+      query: (id) => ({
+        url: `/comments/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["comments"],
+    }),
+    updateComment: builder.mutation({
+      query: ({id,body}) => ({
+        url: `/comments/${id}`,
+        method: "PUT",
+        body
+      }),
+      invalidatesTags: ["comments"],
+    }),
   }),
 });
 
@@ -82,5 +97,7 @@ export const {
   useAddCommentMutation,
   useAddPostMutation,
   useDeletePostMutation,
-  useUpdatePostMutation
+  useUpdatePostMutation,
+  useDeleteCommentMutation,
+  useUpdateCommentMutation
 } = apiSlice;

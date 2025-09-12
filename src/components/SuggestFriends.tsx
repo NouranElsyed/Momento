@@ -25,7 +25,7 @@ const SuggestFriends = () => {
              <img
                 src='/suggest1.jpg'
                 alt="userImg"
-                className="w-8 h-8 rounded-full border-2 border-[#bdbdbd] object-cover bg-slate-200 "
+                className="w-10 h-10 rounded-full border-2 border-[#bdbdbd] object-cover bg-slate-200 "
               />
               <h5 className="text-xs font-semibold ">Amr Malek</h5></div>
                 <FontAwesomeIcon

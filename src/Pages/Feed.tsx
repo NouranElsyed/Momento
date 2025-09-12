@@ -9,14 +9,26 @@ import type { IPost } from "../interface";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SuggestFriends from "../components/SuggestFriends";
+import PaginationItem from "@mui/material/PaginationItem";
+import Pagination from "@mui/material/Pagination";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
+
 
 const Feed = () => {
   const [lastPage, setLastPage] = useState(1);
-  const { data: dataPosts, isLoading } = useGetPostsQuery(lastPage);
+  const [page, setPage] = useState(lastPage);
+    const apiPage = lastPage - page + 1;
+
+  const { data: dataPosts, isLoading } = useGetPostsQuery(apiPage);
+
   useEffect(() => {
-    console.log(dataPosts?.paginationInfo);
-    setLastPage(dataPosts?.paginationInfo?.numberOfPages);
-  }, [dataPosts]);
+    if (dataPosts?.paginationInfo?.numberOfPages) {
+      setLastPage(dataPosts.paginationInfo.numberOfPages);
+    }
+  }, [dataPosts?.paginationInfo?.numberOfPages]);
+
   if (isLoading || !dataPosts) {
     return (
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
@@ -40,7 +52,7 @@ const Feed = () => {
   return (
     
         <div className="flex w-9/10 mx-auto justify-between">
-           <div className="w-full sm:9/10 md:w-4/7 mx-auto flex flex-col gap-7">
+           <div className="w-full sm:9/10 md:w-4/7 lg:w-5/7 mx-auto flex flex-col gap-7">
       <CreatePost />
       {posts &&
         [...posts]
@@ -63,6 +75,18 @@ const Feed = () => {
               />
               </div>
           ))}
+            <Pagination
+              className="flex justify-center mx-auto w-8/10 md:w-full"
+              count={lastPage}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+              renderItem={(item) => (
+                  <PaginationItem
+                    slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                    {...item}
+                />
+              )}
+            />
           </div>
           <SuggestFriends/>
     
