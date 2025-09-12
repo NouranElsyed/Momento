@@ -10,7 +10,7 @@ const SuggestFriends = () => {
         <div className="flex justify-between mx-4 items-center">
         <div className="flex gap-2 items-center"> 
                 <img
-                    src='/public/photoforcomments.png'
+                    src='/suggest2.jpg'
                     alt="userImg"
                     className="w-8 h-8 rounded-full border-2 border-[#bdbdbd] object-cover bg-slate-200 "
                 />
@@ -23,7 +23,7 @@ const SuggestFriends = () => {
        <div className="flex justify-between mx-4 items-center">
        <div className="flex gap-2 items-center"> 
              <img
-                src='/public/photoforcomments.png'
+                src='/suggest1.jpg'
                 alt="userImg"
                 className="w-8 h-8 rounded-full border-2 border-[#bdbdbd] object-cover bg-slate-200 "
               />
@@ -36,7 +36,7 @@ const SuggestFriends = () => {
        <div className="flex justify-between mx-4 items-center">
        <div className="flex gap-2 items-center"> 
              <img
-                src='/public/photoforcomments.png'
+                src='/suggest3.jpeg'
                 alt="userImg"
                 className="w-8 h-8 rounded-full border-2 border-[#bdbdbd] object-cover bg-slate-200 "
               />
