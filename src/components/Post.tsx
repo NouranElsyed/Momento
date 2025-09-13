@@ -1,5 +1,5 @@
 import type { IAxiosError, IPost } from "../interface";
-import Comment from "../components/Comment";
+import Comments from "./Comments";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -143,7 +143,7 @@ const Post = ({ id, body, user, image, createdAt }: IPost) => {
             <p className="text-start mb-5  px-10">{body}</p>
             <img src={image} alt="post-img" className=" px-10 w-full" />
           </NavLink>
-          <Comment postID={id} />
+          <Comments postID={id} />
         </>
       )}
       {isEditting && (

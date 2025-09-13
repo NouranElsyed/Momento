@@ -31,8 +31,9 @@ const Feed = () => {
 
   if (isLoading || !dataPosts) {
     return (
+      <div className="flex w-9/10 mx-auto justify-between">
       <SkeletonTheme baseColor="#f5f5f5" highlightColor="#bbbbbb">
-        <div className="w-9/10 md:w-5/6 lg:w-4/6 mx-auto flex flex-col  gap-10">
+         <div className="w-full sm:9/10 md:w-4/7 lg:w-5/7 mx-auto flex flex-col gap-7">
           <div className=" bg-[#ffffff] border  border-[#dadde0db] w-full mx-auto rounded-2xl px-10 pt-7 pb-3">
             <div className=" flex items-center gap-2 w-full mb-5">
               <Skeleton circle height={40} width={40} />
@@ -43,8 +44,9 @@ const Feed = () => {
           </div>
         </div>
       </SkeletonTheme>
+          <SuggestFriends/>
    
-  
+  </div>
     );
   }
   const posts = dataPosts.posts;
@@ -52,7 +54,7 @@ const Feed = () => {
   return (
     
         <div className="flex w-9/10 mx-auto justify-between">
-           <div className="w-full sm:9/10 md:w-4/7 lg:w-5/7 mx-auto flex flex-col gap-7">
+           <div className="w-full sm:7/10 md:w-4/7 mx-auto flex flex-col gap-7">
       <CreatePost />
       {posts &&
         [...posts]
