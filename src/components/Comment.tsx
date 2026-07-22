@@ -46,10 +46,12 @@ const Comment = ({ comment, postID, postUserId }: IProps) => {
     if (!postID) return;
     setUpdate(false);
     try {
+      const formData = new FormData();
+      formData.set("content", editContent);
       await updateCommentMutation({
         postId: postID,
         commentId,
-        body: { content: editContent },
+        body: formData,
       }).unwrap();
       toast.success("comment updated successfully", {
         duration: 2000,
