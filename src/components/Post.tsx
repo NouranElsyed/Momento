@@ -47,13 +47,13 @@ const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) 
   const toggleLike = async () => {
     const nextLiked = !liked;
     setLiked(nextLiked);
-    setLikeCount((prev) => (nextLiked ? prev + 1 : prev - 1));
+    setLikeCount((prev: number) => (nextLiked ? prev + 1 : prev - 1));
     try {
       await toggleLikePost(id).unwrap();
     } catch (error) {
       // revert on failure
       setLiked(liked);
-      setLikeCount((prev) => (nextLiked ? prev - 1 : prev + 1));
+      setLikeCount((prev: number) => (nextLiked ? prev - 1 : prev + 1));
       toast.error("Couldn't update like");
     }
   };
