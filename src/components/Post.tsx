@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import {
   useDeletePostMutation,
   useGetUserQuery,
+  useToggleLikePostMutation,
   useUpdatePostMutation,
 } from "../app/features/api/apiSlice";
 import { useRef, useState, type ChangeEvent } from "react";
@@ -22,9 +23,10 @@ import type { AxiosError } from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-const Post = ({ id, body, user, image, createdAt }: IPost) => {
+const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) => {
   const [deletePostMutation] = useDeletePostMutation();
   const [updatePostMutation] = useUpdatePostMutation();
+  const [toggleLikePost] = useToggleLikePostMutation();
   const navigate = useNavigate();
 
   dayjs.extend(relativeTime);
@@ -39,12 +41,21 @@ const Post = ({ id, body, user, image, createdAt }: IPost) => {
   }>({ preview: image, imgFile: null });
   const inputFileRef = useRef<HTMLInputElement | null>(null);
 
-  // ---- UI-only like state (no like endpoint yet — will wire up once available) ----
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const toggleLike = () => {
-    setLiked((prev) => !prev);
-    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+  // ---- Like (PUT /posts/:id/like) — optimistic local toggle, backed by real endpoint ----
+  const [liked, setLiked] = useState(Boolean(isLiked));
+  const [likeCount, setLikeCount] = useState(likesCount ?? 0);
+  const toggleLike = async () => {
+    const nextLiked = !liked;
+    setLiked(nextLiked);
+    setLikeCount((prev) => (nextLiked ? prev + 1 : prev - 1));
+    try {
+      await toggleLikePost(id).unwrap();
+    } catch (error) {
+      // revert on failure
+      setLiked(liked);
+      setLikeCount((prev) => (nextLiked ? prev - 1 : prev + 1));
+      toast.error("Couldn't update like");
+    }
   };
 
   const getPhoto = (e: ChangeEvent<HTMLInputElement>) => {
