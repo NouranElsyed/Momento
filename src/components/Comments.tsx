@@ -16,7 +16,7 @@ import Comment from "./Comment";
 const Comments = ({ postID }: { postID: string | undefined }) => {
   //** getting user and comments data */
   const user = useGetUserQuery(null);
-  const { data } = useGetCommentsQuery(postID, { skip: !postID });
+  const { data } = useGetCommentsQuery({ postId: postID }, { skip: !postID });
   const [addComment] = useAddCommentMutation();
   const { data: postData } = useGetPostQuery(postID, { skip: !postID });
 
@@ -36,7 +36,9 @@ const Comments = ({ postID }: { postID: string | undefined }) => {
   const submitComment = async () => {
     if (!postID || !content.trim()) return;
     try {
-      await addComment({ postId: postID, body: { content } }).unwrap();
+      const formData = new FormData();
+      formData.set("content", content);
+      await addComment({ postId: postID, body: formData }).unwrap();
       setContent("");
       toast.success("comment submitted successfully", {
         duration: 2000,
