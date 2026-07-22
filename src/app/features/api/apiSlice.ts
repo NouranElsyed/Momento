@@ -5,7 +5,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://route-posts.routemisr.com/",
     prepareHeaders: (headers) => {
-      const token = JSON.parse(localStorage.getItem("user") ?? "{}").token;
+      const token = JSON.parse(localStorage.getItem("user") ?? "{}").data.token;
       try {
         if (token) {
           headers.set("token", token);
