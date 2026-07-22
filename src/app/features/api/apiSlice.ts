@@ -3,7 +3,26 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // The API wraps every response as { success, message, data, meta }.
 // unwrap() pulls "data" out so the rest of the app can keep using
 // shapes like `data.user`, `data.post`, `data.posts` etc. directly.
-const unwrap = (response) => response?.data ?? response;
+const unwrap = (response: { data?: unknown }) => response?.data ?? response;
+
+interface FeedParams {
+  only?: string;
+  limit?: number;
+  page?: number;
+  cursor?: string;
+  hasImage?: boolean;
+}
+
+interface NotificationsParams {
+  unread?: boolean;
+  page?: number;
+  limit?: number;
+}
+
+interface PaginationParams {
+  page?: number;
+  limit?: number;
+}
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -25,13 +44,13 @@ export const apiSlice = createApi({
   }),
   endpoints: (builder) => ({
     // ---------- Auth ----------
-    signup: builder.mutation({
+    signup: builder.mutation<any, Record<string, unknown>>({
       query: (body) => ({ url: "/users/signup", method: "POST", body }),
     }),
-    signin: builder.mutation({
+    signin: builder.mutation<any, Record<string, unknown>>({
       query: (body) => ({ url: "/users/signin", method: "POST", body }),
     }),
-    changePassword: builder.mutation({
+    changePassword: builder.mutation<any, { password: string; newPassword: string }>({
       query: (body) => ({
         url: "/users/change-password",
         method: "PATCH",
@@ -40,34 +59,34 @@ export const apiSlice = createApi({
     }),
 
     // ---------- Users ----------
-    getUser: builder.query({
+    getUser: builder.query<any, void | null>({
       query: () => "/users/profile-data",
       transformResponse: unwrap,
       providesTags: ["user"],
     }),
-    getUserProfile: builder.query({
+    getUserProfile: builder.query<any, string>({
       query: (id) => `/users/${id}/profile`,
       transformResponse: unwrap,
     }),
-    getUserPosts: builder.query({
+    getUserPosts: builder.query<any, string | undefined>({
       query: (id) => `/users/${id}/posts`,
       transformResponse: unwrap,
       providesTags: ["posts"],
     }),
-    followUser: builder.mutation({
+    followUser: builder.mutation<any, string>({
       query: (id) => ({ url: `/users/${id}/follow`, method: "PUT" }),
       invalidatesTags: ["user", "posts"],
     }),
-    getFollowSuggestions: builder.query({
+    getFollowSuggestions: builder.query<any, number | void>({
       query: (limit = 10) => `/users/suggestions?limit=${limit}`,
       transformResponse: unwrap,
     }),
-    getBookmarks: builder.query({
+    getBookmarks: builder.query<any, void>({
       query: () => "/users/bookmarks",
       transformResponse: unwrap,
       providesTags: ["bookmarks"],
     }),
-    uploadProfilePhoto: builder.mutation({
+    uploadProfilePhoto: builder.mutation<any, FormData>({
       query: (formData) => ({
         url: "/users/upload-photo",
         method: "PUT",
@@ -77,13 +96,15 @@ export const apiSlice = createApi({
     }),
 
     // ---------- Posts ----------
-    getPosts: builder.query({
+    getPosts: builder.query<any, number | undefined>({
       query: (page) => `/posts?limit=10&page=${page ?? 1}`,
       transformResponse: unwrap,
       providesTags: ["posts"],
     }),
-    getHomeFeed: builder.query({
-      query: ({ only = "following", limit = 10, page, cursor, hasImage } = {}) => {
+    getHomeFeed: builder.query<any, FeedParams | void>({
+      query: (arg) => {
+        const { only = "following", limit = 10, page, cursor, hasImage } =
+          arg ?? {};
         const params = new URLSearchParams({ only, limit: String(limit) });
         if (page) params.set("page", String(page));
         if (cursor) params.set("cursor", String(cursor));
@@ -93,15 +114,15 @@ export const apiSlice = createApi({
       transformResponse: unwrap,
       providesTags: ["posts"],
     }),
-    getPost: builder.query({
+    getPost: builder.query<any, string | undefined>({
       query: (id) => `/posts/${id}`,
       transformResponse: unwrap,
     }),
-    addPost: builder.mutation({
+    addPost: builder.mutation<any, FormData>({
       query: (formData) => ({ url: "/posts", method: "POST", body: formData }),
       invalidatesTags: ["posts"],
     }),
-    updatePost: builder.mutation({
+    updatePost: builder.mutation<any, { id: string; body: FormData }>({
       query: ({ id, body }) => ({
         url: `/posts/${id}`,
         method: "PUT",
@@ -109,26 +130,26 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["posts"],
     }),
-    deletePost: builder.mutation({
+    deletePost: builder.mutation<any, string>({
       query: (id) => ({ url: `/posts/${id}`, method: "DELETE" }),
       invalidatesTags: ["posts"],
     }),
 
     // ---------- Post interactions ----------
-    toggleLikePost: builder.mutation({
+    toggleLikePost: builder.mutation<any, string>({
       query: (postId) => ({ url: `/posts/${postId}/like`, method: "PUT" }),
       invalidatesTags: ["posts"],
     }),
-    getPostLikes: builder.query({
+    getPostLikes: builder.query<any, { postId: string } & PaginationParams>({
       query: ({ postId, page = 1, limit = 20 }) =>
         `/posts/${postId}/likes?page=${page}&limit=${limit}`,
       transformResponse: unwrap,
     }),
-    toggleBookmarkPost: builder.mutation({
+    toggleBookmarkPost: builder.mutation<any, string>({
       query: (postId) => ({ url: `/posts/${postId}/bookmark`, method: "PUT" }),
       invalidatesTags: ["bookmarks", "posts"],
     }),
-    sharePost: builder.mutation({
+    sharePost: builder.mutation<any, { postId: string; body: { body: string } }>({
       query: ({ postId, body }) => ({
         url: `/posts/${postId}/share`,
         method: "POST",
@@ -138,74 +159,79 @@ export const apiSlice = createApi({
     }),
 
     // ---------- Comments & Replies ----------
-    getComments: builder.query({
+    getComments: builder.query<any, { postId: string | undefined } & PaginationParams>({
       query: ({ postId, page = 1, limit = 10 }) =>
         `/posts/${postId}/comments?page=${page}&limit=${limit}`,
       transformResponse: unwrap,
       providesTags: ["comments"],
     }),
-    addComment: builder.mutation({
+    addComment: builder.mutation<any, { postId: string; body: FormData }>({
       query: ({ postId, body }) => ({
         url: `/posts/${postId}/comments`,
         method: "POST",
-        body, // FormData: { content, image? }
+        body,
       }),
       invalidatesTags: ["comments"],
     }),
-    updateComment: builder.mutation({
+    updateComment: builder.mutation<any, { postId: string; commentId: string; body: FormData }>({
       query: ({ postId, commentId, body }) => ({
         url: `/posts/${postId}/comments/${commentId}`,
         method: "PUT",
-        body, // FormData: { content, image? }
+        body,
       }),
       invalidatesTags: ["comments"],
     }),
-    deleteComment: builder.mutation({
+    deleteComment: builder.mutation<any, { postId: string; commentId: string }>({
       query: ({ postId, commentId }) => ({
         url: `/posts/${postId}/comments/${commentId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["comments"],
     }),
-    toggleLikeComment: builder.mutation({
+    toggleLikeComment: builder.mutation<any, { postId: string; commentId: string }>({
       query: ({ postId, commentId }) => ({
         url: `/posts/${postId}/comments/${commentId}/like`,
         method: "PUT",
       }),
       invalidatesTags: ["comments"],
     }),
-    getCommentReplies: builder.query({
+    getCommentReplies: builder.query<
+      any,
+      { postId: string; commentId: string } & PaginationParams
+    >({
       query: ({ postId, commentId, page = 1, limit = 10 }) =>
         `/posts/${postId}/comments/${commentId}/replies?page=${page}&limit=${limit}`,
       transformResponse: unwrap,
       providesTags: ["comments"],
     }),
-    addReply: builder.mutation({
+    addReply: builder.mutation<any, { postId: string; commentId: string; body: FormData }>({
       query: ({ postId, commentId, body }) => ({
         url: `/posts/${postId}/comments/${commentId}/replies`,
         method: "POST",
-        body, // FormData: { content, image? }
+        body,
       }),
       invalidatesTags: ["comments"],
     }),
 
     // ---------- Notifications ----------
-    getNotifications: builder.query({
-      query: ({ unread = false, page = 1, limit = 10 } = {}) =>
-        `/notifications?unread=${unread}&page=${page}&limit=${limit}`,
+    getNotifications: builder.query<any, NotificationsParams | void>({
+      query: (arg) => {
+        const { unread = false, page = 1, limit = 10 } = arg ?? {};
+        return `/notifications?unread=${unread}&page=${page}&limit=${limit}`;
+      },
       transformResponse: unwrap,
       providesTags: ["notifications"],
     }),
-    getUnreadNotificationsCount: builder.query({
+    getUnreadNotificationsCount: builder.query<any, void>({
       query: () => "/notifications/unread-count",
       transformResponse: unwrap,
       providesTags: ["notifications"],
     }),
-    markNotificationAsRead: builder.mutation({
+    markNotificationAsRead: builder.mutation<any, string>({
       query: (id) => ({ url: `/notifications/${id}/read`, method: "PATCH" }),
       invalidatesTags: ["notifications"],
     }),
-    markAllNotificationsAsRead: builder.mutation({
+    markAllNotificationsAsRead: builder.mutation<any, void>({
       query: () => ({ url: "/notifications/read-all", method: "PATCH" }),
       invalidatesTags: ["notifications"],
     }),
