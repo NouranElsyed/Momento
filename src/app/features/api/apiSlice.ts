@@ -3,7 +3,7 @@ export const apiSlice = createApi({
   reducerPath: "api",
   tagTypes: ["posts", "comments"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://linked-posts.routemisr.com/",
+    baseUrl: "https://route-posts.routemisr.com/",
     prepareHeaders: (headers) => {
       const token = JSON.parse(localStorage.getItem("user") ?? "{}").token;
       try {
