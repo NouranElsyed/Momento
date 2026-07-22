@@ -23,13 +23,17 @@ import type { AxiosError } from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) => {
+type PostProps = IPost & { isLiked?: boolean; likesCount?: number };
+
+const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: PostProps) => {
   const [deletePostMutation] = useDeletePostMutation();
   const [updatePostMutation] = useUpdatePostMutation();
   const [toggleLikePost] = useToggleLikePostMutation();
   const navigate = useNavigate();
 
   dayjs.extend(relativeTime);
+
+  const postId = id ?? "";
 
   const [isEditting, setIsEditting] = useState(false);
   const { isLoading, data: loginedUser } = useGetUserQuery(null);
@@ -49,7 +53,7 @@ const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) 
     setLiked(nextLiked);
     setLikeCount((prev: number) => (nextLiked ? prev + 1 : prev - 1));
     try {
-      await toggleLikePost(id).unwrap();
+      await toggleLikePost(postId).unwrap();
     } catch (error) {
       // revert on failure
       setLiked(liked);
@@ -72,7 +76,7 @@ const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) 
     formData.set("body", editBody ?? "");
     if (editImg.imgFile) formData.set("image", editImg.imgFile);
     try {
-      await updatePostMutation({ id, body: formData }).unwrap();
+      await updatePostMutation({ id: postId, body: formData }).unwrap();
       toast.success("Post updated");
       setIsEditting(false);
     } catch (error) {
@@ -85,7 +89,7 @@ const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) 
     e.preventDefault();
     e.stopPropagation();
     try {
-      await deletePostMutation(id).unwrap();
+      await deletePostMutation(postId).unwrap();
       toast.success("Post deleted");
       if (location.pathname.includes(`/post/${id}`)) navigate("/");
     } catch (error: unknown) {
@@ -100,7 +104,7 @@ const Post = ({ id, body, user, image, createdAt, isLiked, likesCount }: IPost) 
     <>
       {!isEditting && (
         <>
-          <NavLink to={`/post/${id}`} className="group block w-full relative px-6 pt-6">
+          <NavLink to={`/post/${postId}`} className="group block w-full relative px-6 pt-6">
             {isOwner && (
               <div className="absolute right-6 top-6 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                 <button
