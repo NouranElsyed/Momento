@@ -8,19 +8,18 @@ import {
   useGetPostQuery,
   useGetUserQuery,
 } from "../app/features/api/apiSlice";
-import {
-  faArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import Comment from "./Comment"
+import Comment from "./Comment";
 
 const Comments = ({ postID }: { postID: string | undefined }) => {
   //** getting user and comments data */
   const user = useGetUserQuery(null);
-  const { data } = useGetCommentsQuery(postID);
+  const { data } = useGetCommentsQuery(postID, { skip: !postID });
   const [addComment] = useAddCommentMutation();
- const { data: postData } = useGetPostQuery(postID);
+  const { data: postData } = useGetPostQuery(postID, { skip: !postID });
+
   //**  show comments state and handle showing comments*/
   const [showComments, setShowComments] = useState(false);
   const handleComments = () => {
@@ -31,29 +30,27 @@ const Comments = ({ postID }: { postID: string | undefined }) => {
   const handleComment = () => {
     setWriteComment((prev) => !prev);
   };
-  //**  comment state and submit comment*/
-  const [comment, setComment] = useState({
-    content: "",
-    post: postID,
-  });
+  //**  comment content state */
+  const [content, setContent] = useState("");
 
   const submitComment = async () => {
-    console.log(user.data.user._id !== postData.post.user._id )
-    if (!comment.content.trim()) return;
+    if (!postID || !content.trim()) return;
     try {
-      await addComment(comment).unwrap();
-      setComment((prev) => ({ ...prev, content: "" }));
+      await addComment({ postId: postID, body: { content } }).unwrap();
+      setContent("");
       toast.success("comment submitted successfully", {
         duration: 2000,
         position: "bottom-right",
       });
     } catch (error) {
       console.log(error);
+      toast.error("Couldn't submit comment", {
+        duration: 2000,
+        position: "bottom-right",
+      });
     }
   };
 
-
-  //** Return */
   return (
     <>
       <div className="w-full border-b border-neutral-300 mt-5 "></div>
@@ -71,7 +68,7 @@ const Comments = ({ postID }: { postID: string | undefined }) => {
           className="showComments flex gap-2 items-center py-3  hover:text-blue-400"
           onClick={handleComments}
         >
-          <span>{data?.total}</span>
+          <span>{data?.total ?? data?.comments?.length ?? 0}</span>
           <FontAwesomeIcon icon={faComments} />
           <p>Comments</p>
         </div>
@@ -90,10 +87,8 @@ const Comments = ({ postID }: { postID: string | undefined }) => {
             <textarea
               placeholder="Write a comment..."
               className="flex-1 px-3 py-2 mb-3 mx-2 focus:outline-0"
-              value={comment.content}
-              onChange={(e) => {
-                setComment((prev) => ({ ...prev, content: e.target.value }));
-              }}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
             <motion.div
               onClick={submitComment}
@@ -109,17 +104,14 @@ const Comments = ({ postID }: { postID: string | undefined }) => {
           </div>
         </div>
       )}
-      {showComments && data?.comments?.length === 0 && (
+      {showComments && (data?.comments?.length ?? 0) === 0 && (
         <p className="pb-5 text-[#646464]"> No Comments yet</p>
       )}
       {showComments &&
-        data?.comments?.length > 0 &&
-        data?.comments.map((comment: IComment, index: number) => (
-          <div
-            key={index}
-            className="flex justify-start gap-2 w-full my-3  px-3"
-          >
-           <Comment comment={comment} postID={postID}/>
+        (data?.comments?.length ?? 0) > 0 &&
+        data.comments.map((comment: IComment, index: number) => (
+          <div key={comment._id ?? index} className="flex justify-start gap-2 w-full my-3  px-3">
+            <Comment comment={comment} postID={postID} postUserId={postData?.post?.user?._id} />
           </div>
         ))}
     </>
